@@ -11,6 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
 from .serializers import UserSerializer, UserSerializerWithToken
 
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -37,10 +38,10 @@ def register(request):
             password=make_password(data['password'])
         )
         serializer = UserSerializerWithToken(user, many=False)
-        return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
+        return Response(serializer.data)
     except:
-        message = {'detail': 'Somthing went wrong'}
-        return Response(message, status=status.HTTP_400_BAD_REQUEST, headers={'Access-Control-Allow-Origin': '*'})
+        message = {'detail': 'Algo salio mal!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -55,7 +56,7 @@ def putUser(request):
     if data['password'] != '':
         user.password = make_password(data['password'])
     user.save()
-    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
@@ -66,7 +67,7 @@ def uploadImage(request):
     user = User.objects.get(id=user_id)
     user.image = request.FILES.get('image')
     user.save()
-    return Response('Imagen subida!', headers={'Access-Control-Allow-Origin': '*'})
+    return Response('Imagen subida!')
 
 
 @api_view(['GET'])
@@ -74,14 +75,14 @@ def uploadImage(request):
 def getUserProfile(request):
     user = request.user
     serializer = UserSerializer(user, many=False)
-    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getSoloUser(request, pk):
     user = User.objects.get(id=pk)
     serializer = UserSerializer(user, many=False)
-    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -89,5 +90,5 @@ def getSoloUser(request, pk):
 def getUsers(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
-    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
+    return Response(serializer.data)
 
