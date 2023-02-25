@@ -14,7 +14,7 @@ from users.models import User
 def getBlogs(request):
     blog = Blog.objects.filter().order_by('-date')
     serializer = BlogSerializer(blog, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
 
 
 @api_view(['GET'])
@@ -22,7 +22,7 @@ def getBlogs(request):
 def getSoloBlog(request, pk):
     blog = Blog.objects.get(id=pk)
     serializer = BlogSerializer(blog, many=False)
-    return Response(serializer.data)
+    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
 
 
 @api_view(['POST'])
@@ -34,7 +34,7 @@ def postBlog(request):
         body=data['body'],
     )
     serializer = BlogSerializer(blog, many=False)
-    return Response(serializer.data)
+    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
 
 
 @api_view(['PUT'])
@@ -47,8 +47,8 @@ def putBlog(request, pk):
         if serializer.is_valid():
             serializer.save()
     else:
-        return Response({'Error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
-    return Response(serializer.data)
+        return Response({'Error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED, headers={'Access-Control-Allow-Origin': '*'})
+    return Response(serializer.data, headers={'Access-Control-Allow-Origin': '*'})
 
 
 @api_view(['DELETE'])
@@ -57,9 +57,9 @@ def deleteBlog(request, pk):
     blog = Blog.objects.get(id=pk)
     if blog.user == request.user:
         blog.delete()
-        return Response('Blog Eliminado')
+        return Response('Blog Eliminado', headers={'Access-Control-Allow-Origin': '*'})
     else:
-        return Response({'Error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'Error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED, headers={'Access-Control-Allow-Origin': '*'})
 
 
 @api_view(['DELETE'])
@@ -68,9 +68,9 @@ def deleteComment(request, pk):
     comment = Comment.objects.get(id=pk)
     if comment.user == request.user:
         comment.delete()
-        return Response('Comentario Eliminado')
+        return Response('Comentario Eliminado', headers={'Access-Control-Allow-Origin': '*'})
     else:
-        return Response({'Error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'Error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED, headers={'Access-Control-Allow-Origin': '*'})
 
 
 @api_view(['POST'])
@@ -86,4 +86,4 @@ def comment(request, pk):
     )
     comments = blog.comment_set.all()
     blog.save()
-    return Response('Comentario Añadido')
+    return Response('Comentario Añadido', headers={'Access-Control-Allow-Origin': '*'})
