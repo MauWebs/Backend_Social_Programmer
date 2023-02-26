@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'users',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = False
+
 CORS_ALLOWED_ORIGINS = [
     "https://social-programmer-mau-webs.netlify.app",
     "http://localhost:3000",
@@ -61,6 +63,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
 
 CORS_ALLOW_METHODS = [
     "DELETE",
