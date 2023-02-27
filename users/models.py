@@ -34,7 +34,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150)
     start_date = models.DateTimeField(default=timezone.now)
     bio = models.TextField(_('bio'), max_length=500, blank=True)
-    image = models.ImageField(null=True, blank=True, default='/pic.jpg', upload_to='media/usuarios/')
+    image = models.ImageField(null=True, blank=True, default='/pic.jpg')
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     objects = CustomAccountManager()
